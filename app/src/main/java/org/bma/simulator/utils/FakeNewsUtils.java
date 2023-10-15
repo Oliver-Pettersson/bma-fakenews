@@ -15,16 +15,10 @@ public class FakeNewsUtils {
     private FakeNewsUtils() {
     }
 
-    public static void injectFakeNews(Node sourceNode) {
+    public static void injectFakeNews(Node sourceNode, long millis) {
+        sourceNode.setAttribute("ui.class", "infected");
+        sleep(millis);
         List<Node> nodes = new ArrayList<>(List.of(sourceNode));
-//        while (!nodes.isEmpty()) {
-//            nodes = nodes.stream().flatMap(node -> node.leavingEdges().map(edge -> {
-//                Node returnNode = edge.getTargetNode();
-//                returnNode.setAttribute("ui.class", "infected");
-//                return returnNode;
-//            })).distinct().toList();
-//            sleep();
-//        }
         while (!nodes.isEmpty()) {
             List<Node> newNodes = new ArrayList<>();
             for (Node node : nodes) {
@@ -32,20 +26,21 @@ public class FakeNewsUtils {
                     Node returnNode = edge.getTargetNode();
                     if (returnNode.getAttribute("ui.class") == null || !returnNode.getAttribute("ui.class").equals("infected")) {
                         returnNode.setAttribute("ui.class", "infected");
+                        edge.setAttribute("ui.class", "infected");
                         newNodes.add(returnNode);
                     }
                 }
             }
             nodes = newNodes;
-            sleep();
+            sleep(millis);
 
         }
         System.out.println("DONE");
     }
 
-    private static void sleep() {
+    private static void sleep(long millis) {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(millis);
         } catch (Exception e) {
         }
     }

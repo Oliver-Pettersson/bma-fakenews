@@ -1,5 +1,7 @@
 package org.bma.simulator.visuals;
 
+import org.bma.simulator.utils.FakeNewsUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -59,33 +61,35 @@ public class ControlPanel {
         JButton generateButton = new JButton("Generate");
         generateButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Add code to handle the "Generate" button click here
+                VisualisationGraph.generateNewGraph(Integer.parseInt(nodesTextField.getText()));
+                VisualisationGraph.setCelebrities(Integer.parseInt(celebritiesTextField.getText()));
             }
         });
         panel.add(generateButton, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
-        JButton resetButton = new JButton("Reset");
-        resetButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Add code to handle the "Reset" button click here
-            }
-        });
-        panel.add(resetButton, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        JButton injectButton = new JButton(" ");
-        injectButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Add code to handle the "Inject" button click here
-            }
-        });
+        JButton injectButton = getjButton();
         panel.add(injectButton, gbc);
 
         frame.add(panel);
         frame.setVisible(true);
+    }
+
+    private JButton getjButton() {
+        JButton injectButton = new JButton("Inject Fake News");
+        injectButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Rework this for the future
+                new Thread(() ->
+                        FakeNewsUtils.injectFakeNews(
+                                VisualisationGraph.getGraph().getNode("0"),
+                                Long.parseLong(refreshRateTextField.getText())))
+                        .start();
+
+            }
+        });
+        return injectButton;
     }
 
 

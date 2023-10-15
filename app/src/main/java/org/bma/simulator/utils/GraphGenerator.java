@@ -2,9 +2,6 @@ package org.bma.simulator.utils;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
-import org.graphstream.ui.graphicGraph.stylesheet.StyleConstants;
-import org.graphstream.ui.spriteManager.Sprite;
-import org.graphstream.ui.spriteManager.SpriteManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,32 +10,19 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GraphGenerator {
-    private static final String styleSheet = """
-            node {
-                fill-color: black;
-            }
-            node.infected {
-                fill-color: red;
-            }
-            """;
-    private static int graphNumber = 0;
+
 
     private static List<String> nodeIds;
 
     private GraphGenerator() {}
 
-    public static Graph createRandomGraph(int amountOfNodes) {
+    public static void createRandomGraphStructure(Graph graph, int amountOfNodes) {
         nodeIds = new ArrayList<>(amountOfNodes);
-        Graph graph = new MultiGraph(Integer.toString(graphNumber));
-        graph.setAttribute("ui.stylesheet", styleSheet);
+
 
         attachNodes(graph, amountOfNodes);
         createEdges(graph, amountOfNodes);
-
-        graphNumber++;
         nodeIds = null;
-
-        return graph;
     }
 
     private static void attachNodes(Graph graph, int amountOfNodes) {
@@ -53,17 +37,11 @@ public class GraphGenerator {
         for (int sourceNode = 0; sourceNode < amountOfNodes; sourceNode++) {
             int amountOfFollowers = ThreadLocalRandom.current().nextInt(1, 4);
 
-
-            if (sourceNode == 4 || sourceNode == 167) {
-                amountOfFollowers = 80;
-            }
-
-
             String sourceNodeId = Integer.toString(sourceNode);
             List<String> randomFollowers = getRandomDifferentNodes(amountOfFollowers, nodeIds, sourceNodeId);
             for (String followerId :
                     randomFollowers) {
-                graph.addEdge( sourceNodeId + followerId, sourceNodeId, followerId, true);
+                graph.addEdge( sourceNodeId + "->" + followerId, sourceNodeId, followerId, true);
             }
         }
     }
