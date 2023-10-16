@@ -1,6 +1,7 @@
 package org.bma.simulator.utils;
 
 
+import org.bma.simulator.datamodel.UserNode;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 
@@ -16,16 +17,18 @@ public class FakeNewsUtils {
     }
 
     public static void injectFakeNews(Node sourceNode, long millis) {
-        sourceNode.setAttribute("ui.class", "infected");
+        int wave = 0;
+        updateInfectionStatus(sourceNode, sourceNode, wave);
         sleep(millis);
         List<Node> nodes = new ArrayList<>(List.of(sourceNode));
         while (!nodes.isEmpty()) {
+            wave++;
             List<Node> newNodes = new ArrayList<>();
             for (Node node : nodes) {
                 for (Edge edge : node.leavingEdges().toList()) {
                     Node returnNode = edge.getTargetNode();
                     if (returnNode.getAttribute("ui.class") == null || !returnNode.getAttribute("ui.class").equals("infected")) {
-                        returnNode.setAttribute("ui.class", "infected");
+                        updateInfectionStatus(returnNode, edge.getSourceNode(), wave);
                         edge.setAttribute("ui.class", "infected");
                         newNodes.add(returnNode);
                     }
@@ -36,6 +39,14 @@ public class FakeNewsUtils {
 
         }
         System.out.println("DONE");
+    }
+
+    private static void updateInfectionStatus(Node infectedNode, Node culpritNode, int wave) {
+        infectedNode.setAttribute("ui.class", "infected");
+        UserNode data = infectedNode.getAttribute("data", UserNode.class);
+        data.setInfected(true);
+        data.setCulpritId(culpritNode.getId());
+        data.setInfectionWave(Integer.toString(wave));
     }
 
     private static void sleep(long millis) {

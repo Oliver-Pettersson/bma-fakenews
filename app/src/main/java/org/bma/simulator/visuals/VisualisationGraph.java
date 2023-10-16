@@ -5,6 +5,7 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
+import org.graphstream.ui.view.Viewer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,9 +15,19 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class VisualisationGraph {
     private static final Graph GRAPH = new MultiGraph("0");
+    private static Viewer graphViewer;
     private static final String STYLE_SHEET = """
             node {
-                fill-color: black;
+            	size: 10px;
+            	fill-color: #777;
+            	text-mode: hidden;
+            	z-index: 0;
+            }
+                        
+            edge {
+            	shape: line;
+            	fill-color: #222;
+            	arrow-size: 3px, 2px;
             }
             node.infected {
                 fill-color: red;
@@ -27,7 +38,7 @@ public class VisualisationGraph {
             """;
 
     static {
-        GRAPH.display();
+        graphViewer = GRAPH.display();
     }
 
     private VisualisationGraph() {}
@@ -36,6 +47,8 @@ public class VisualisationGraph {
     public static void generateNewGraph(int amountOfNodes) {
         GRAPH.clear();
         GRAPH.setAttribute("ui.stylesheet", STYLE_SHEET);
+        GRAPH.setAttribute("ui.quality");
+        GRAPH.setAttribute("ui.antialias");
         GraphGenerator.createRandomGraphStructure(GRAPH, amountOfNodes);
     }
 
@@ -70,5 +83,9 @@ public class VisualisationGraph {
 
     public static Graph getGraph() {
         return GRAPH;
+    }
+
+    public static Viewer getGraphViewer() {
+        return graphViewer;
     }
 }

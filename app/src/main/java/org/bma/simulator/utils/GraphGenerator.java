@@ -1,5 +1,6 @@
 package org.bma.simulator.utils;
 
+import org.bma.simulator.datamodel.UserNode;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
 
@@ -28,7 +29,7 @@ public class GraphGenerator {
     private static void attachNodes(Graph graph, int amountOfNodes) {
         for (int i = 0; i < amountOfNodes; i++) {
             String nodeId = Integer.toString(i);
-            graph.addNode(nodeId);
+            graph.addNode(nodeId).setAttribute("data", new UserNode(nodeId));
             nodeIds.add(nodeId);
         }
     }
