@@ -36,7 +36,7 @@ public class VisualisationMouseManager implements ViewerListener {
         // that have already occurred in the viewer thread inside
         // our thread.
 
-        while(loop) {
+        while (loop) {
             fromViewer.pump(); // or fromViewer.blockingPump(); in the nightly builds
 
             // here your simulation code.
@@ -55,12 +55,10 @@ public class VisualisationMouseManager implements ViewerListener {
     }
 
     public void buttonPushed(String id) {
-        System.out.println("Button pushed on node "+id);
-        new DataVisualisationPanel(VisualisationGraph.getGraph().getNode(id).getAttribute("data", UserNode.class).getData());
+        new DataVisualisationPanel(VisualisationGraph.getGraph().getNode(id).getAttribute("data", UserNode.class).getData(), "Node Data");
     }
 
     public void buttonReleased(String id) {
-        System.out.println("Button released on node "+id);
     }
 
     public void mouseOver(String id) {

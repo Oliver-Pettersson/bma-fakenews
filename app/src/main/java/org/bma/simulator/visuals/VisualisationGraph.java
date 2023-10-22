@@ -1,5 +1,6 @@
 package org.bma.simulator.visuals;
 
+import org.bma.simulator.datamodel.UserNode;
 import org.bma.simulator.utils.GraphGenerator;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -15,7 +16,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class VisualisationGraph {
     private static final Graph GRAPH = new MultiGraph("0");
-    private static Viewer graphViewer;
+    private static final Viewer graphViewer;
     private static final String STYLE_SHEET = """
             node {
             	size: 10px;
@@ -44,41 +45,22 @@ public class VisualisationGraph {
     private VisualisationGraph() {}
 
 
-    public static void generateNewGraph(int amountOfNodes) {
+    public static void generateNewGraph(int amountOfNodes, int amountOfCelebrities) {
         GRAPH.clear();
         GRAPH.setAttribute("ui.stylesheet", STYLE_SHEET);
         GRAPH.setAttribute("ui.quality");
         GRAPH.setAttribute("ui.antialias");
         GraphGenerator.createRandomGraphStructure(GRAPH, amountOfNodes);
+        GraphGenerator.setCelebrities(amountOfCelebrities);
+        updateData();
     }
 
-    public static void setCelebrities(int amount) {
-        HashMap<String, Boolean> celebrityRegister = new HashMap<>(amount, 1);
-        int nodeCount = GRAPH.getNodeCount();
-        for (int i = 0; i < amount; i++) {
-            String celebrityId = GRAPH.getNode(ThreadLocalRandom.current().nextInt(0, nodeCount)).getId();
-            while (celebrityRegister.get(celebrityId) != null) {
-                celebrityId = GRAPH.getNode(ThreadLocalRandom.current().nextInt(0, nodeCount)).getId();
-            }
-            attachFollowersToCelebrity(celebrityId);
-            celebrityRegister.put(celebrityId, true);
-        }
-    }
-
-    private static void attachFollowersToCelebrity(String celebrityId) {
-        Node celebrity = GRAPH.getNode(celebrityId);
-        int nodeCount = GRAPH.getNodeCount();
-        List<Edge> leavingEdges = celebrity.leavingEdges().toList();
-        leavingEdges.forEach(GRAPH::removeEdge);
-        List<Node> nodes = new ArrayList<>(GRAPH.nodes().toList());
-        nodes.remove(celebrity);
-        Collections.shuffle(nodes);
-        nodes.subList(0, (int) (nodeCount * ThreadLocalRandom.current().nextDouble(0.4, 0.8)));
-        for (Node follower :
-                nodes) {
-            String followerId = follower.getId();
-            GRAPH.addEdge(celebrityId + "->" + followerId, celebrityId, followerId, true);
-        }
+    private static void updateData() {
+        GRAPH.nodes().forEach(node -> {
+            UserNode data = node.getAttribute("data", UserNode.class);
+            data.setAmountOfFollowers(node.leavingEdges().toList().size());
+            data.setAmountOfFollows(node.enteringEdges().toList().size());
+        });
     }
 
     public static Graph getGraph() {

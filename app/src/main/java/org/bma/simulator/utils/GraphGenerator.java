@@ -1,7 +1,10 @@
 package org.bma.simulator.utils;
 
 import org.bma.simulator.datamodel.UserNode;
+import org.bma.simulator.visuals.VisualisationGraph;
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 
 import java.util.ArrayList;
@@ -15,7 +18,8 @@ public class GraphGenerator {
 
     private static List<String> nodeIds;
 
-    private GraphGenerator() {}
+    private GraphGenerator() {
+    }
 
     public static void createRandomGraphStructure(Graph graph, int amountOfNodes) {
         nodeIds = new ArrayList<>(amountOfNodes);
@@ -33,7 +37,7 @@ public class GraphGenerator {
             nodeIds.add(nodeId);
         }
     }
-    
+
     private static void createEdges(Graph graph, int amountOfNodes) {
         for (int sourceNode = 0; sourceNode < amountOfNodes; sourceNode++) {
             int amountOfFollowers = ThreadLocalRandom.current().nextInt(1, 4);
@@ -42,7 +46,7 @@ public class GraphGenerator {
             List<String> randomFollowers = getRandomDifferentNodes(amountOfFollowers, nodeIds, sourceNodeId);
             for (String followerId :
                     randomFollowers) {
-                graph.addEdge( sourceNodeId + "->" + followerId, sourceNodeId, followerId, true);
+                graph.addEdge(sourceNodeId + "->" + followerId, sourceNodeId, followerId, true);
             }
         }
     }
@@ -67,6 +71,35 @@ public class GraphGenerator {
             }
             chosenIds.remove(initialNode);
             return chosenIds.keySet().stream().toList();
+        }
+    }
+
+    public static void setCelebrities(int amount) {
+        HashMap<String, Boolean> celebrityRegister = new HashMap<>(amount, 1);
+        int nodeCount = VisualisationGraph.getGraph().getNodeCount();
+        for (int i = 0; i < amount; i++) {
+            String celebrityId = VisualisationGraph.getGraph().getNode(ThreadLocalRandom.current().nextInt(0, nodeCount)).getId();
+            while (celebrityRegister.get(celebrityId) != null) {
+                celebrityId = VisualisationGraph.getGraph().getNode(ThreadLocalRandom.current().nextInt(0, nodeCount)).getId();
+            }
+            attachFollowersToCelebrity(celebrityId);
+            celebrityRegister.put(celebrityId, true);
+        }
+    }
+
+    private static void attachFollowersToCelebrity(String celebrityId) {
+        Node celebrity = VisualisationGraph.getGraph().getNode(celebrityId);
+        int nodeCount = VisualisationGraph.getGraph().getNodeCount();
+        List<Edge> leavingEdges = celebrity.leavingEdges().toList();
+        leavingEdges.forEach(VisualisationGraph.getGraph()::removeEdge);
+        List<Node> nodes = new ArrayList<>(VisualisationGraph.getGraph().nodes().toList());
+        nodes.remove(celebrity);
+        Collections.shuffle(nodes);
+        nodes = nodes.subList(0, (int) (nodeCount * ThreadLocalRandom.current().nextDouble(0.4, 0.8)));
+        for (Node follower :
+                nodes) {
+            String followerId = follower.getId();
+            VisualisationGraph.getGraph().addEdge(celebrityId + "->" + followerId, celebrityId, followerId, true);
         }
     }
 

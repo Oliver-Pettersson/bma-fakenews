@@ -1,5 +1,6 @@
 package org.bma.simulator.visuals;
 
+import org.bma.simulator.datamodel.ResultData;
 import org.bma.simulator.utils.FakeNewsUtils;
 
 import javax.swing.*;
@@ -7,14 +8,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ControlPanel {
-    private JFrame frame;
-    private JTextField nodesTextField, celebritiesTextField, refreshRateTextField;
+public class ControlPanel extends JFrame{
+    private final JTextField nodesTextField, celebritiesTextField, refreshRateTextField, injectionSourceTextField, minFollowsTextField, maxFollowsTextField;
 
     public ControlPanel() {
-        frame = new JFrame("Control Panel");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        setTitle("Control Panel");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(600, 300);
 
         // Apply basic styling to improve the appearance
         try {
@@ -47,49 +47,88 @@ public class ControlPanel {
 
         gbc.gridx = 0;
         gbc.gridy = 2;
-        panel.add(new JLabel("Refresh Rate (ms):"), gbc);
+        panel.add(new JLabel("Min amount of Follows:"), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 2;
-        refreshRateTextField = new JTextField(10);
-        panel.add(refreshRateTextField, gbc);
+        minFollowsTextField = new JTextField(10);
+        panel.add(minFollowsTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        JButton generateButton = new JButton("Generate");
-        generateButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                VisualisationGraph.generateNewGraph(Integer.parseInt(nodesTextField.getText()));
-                VisualisationGraph.setCelebrities(Integer.parseInt(celebritiesTextField.getText()));
-            }
-        });
-        panel.add(generateButton, gbc);
+        panel.add(new JLabel("Max amount of Follows:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        maxFollowsTextField = new JTextField(10);
+        panel.add(maxFollowsTextField, gbc);
+
+
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        panel.add(new JLabel("Refresh Rate (ms):"), gbc);
+
+        gbc.gridx = 3;
+        gbc.gridy = 0;
+        refreshRateTextField = new JTextField(10);
+        panel.add(refreshRateTextField, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        panel.add(new JLabel("Injection Source:"), gbc);
+
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        injectionSourceTextField = new JTextField(10);
+        panel.add(injectionSourceTextField, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
-        JButton injectButton = getjButton();
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JButton generateButton = getGenerateButton();
+        panel.add(generateButton, gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        JButton injectButton = getInjectionButton();
         panel.add(injectButton, gbc);
 
-        frame.add(panel);
-        frame.setVisible(true);
+        // default Values
+        nodesTextField.setText("100");
+        celebritiesTextField.setText("1");
+        refreshRateTextField.setText("1000");
+        injectionSourceTextField.setText("0");
+
+        add(panel);
+        setVisible(true);
     }
 
-    private JButton getjButton() {
+    private JButton getInjectionButton() {
         JButton injectButton = new JButton("Inject Fake News");
         injectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Rework this for the future
-                new Thread(() ->
-                        FakeNewsUtils.injectFakeNews(
-                                VisualisationGraph.getGraph().getNode("0"),
-                                Long.parseLong(refreshRateTextField.getText())))
-                        .start();
+                new Thread(() -> {
+                    FakeNewsUtils.injectFakeNews(
+                            VisualisationGraph.getGraph().getNode(injectionSourceTextField.getText()),
+                            Long.parseLong(refreshRateTextField.getText()));
+                    new DataVisualisationPanel(new ResultData().getData(), "Result Panel");
+                }).start();
 
             }
         });
         return injectButton;
+    }
+
+    private JButton getGenerateButton() {
+        JButton generateButton = new JButton("Generate");
+        generateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                VisualisationGraph.generateNewGraph(Integer.parseInt(nodesTextField.getText()), Integer.parseInt(celebritiesTextField.getText()));
+            }
+        });
+        return generateButton;
     }
 
 

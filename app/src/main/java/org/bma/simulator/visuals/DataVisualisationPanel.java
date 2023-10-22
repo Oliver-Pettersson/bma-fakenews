@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class DataVisualisationPanel extends JFrame {
 
-    public DataVisualisationPanel(Object[][] data) {
-        setTitle(data[0][1].toString());
+    public DataVisualisationPanel(Object[][] data, String title) {
+        setTitle(title);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 600);
 
