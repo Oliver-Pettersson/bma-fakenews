@@ -2,17 +2,9 @@ package org.bma.simulator.visuals;
 
 import org.bma.simulator.datamodel.UserNode;
 import org.bma.simulator.utils.GraphGenerator;
-import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
-import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.view.Viewer;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class VisualisationGraph {
     private static final Graph GRAPH = new MultiGraph("0");

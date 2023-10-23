@@ -55,7 +55,7 @@ public class VisualisationMouseManager implements ViewerListener {
     }
 
     public void buttonPushed(String id) {
-        new DataVisualisationPanel(VisualisationGraph.getGraph().getNode(id).getAttribute("data", UserNode.class).getData(), "Node Data");
+        new NodeDataVisualisationPanel(VisualisationGraph.getGraph().getNode(id).getAttribute("data", UserNode.class).getData(), "Node Data");
     }
 
     public void buttonReleased(String id) {

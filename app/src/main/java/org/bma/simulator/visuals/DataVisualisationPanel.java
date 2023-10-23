@@ -3,11 +3,12 @@ package org.bma.simulator.visuals;
 import javax.swing.*;
 import java.awt.*;
 
-public class DataVisualisationPanel extends JFrame {
+public abstract class DataVisualisationPanel extends JFrame {
+    protected JPanel panel;
 
-    public DataVisualisationPanel(Object[][] data, String title) {
+    protected DataVisualisationPanel(Object[][] data, String title) {
         setTitle(title);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setSize(600, 600);
 
         // Create a table without a header row
@@ -15,14 +16,18 @@ public class DataVisualisationPanel extends JFrame {
         table.setTableHeader(null); // Hide the table header
 
         // Create a panel to center the table with a margin
-        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add margin
-
+        panel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.CENTER;
+        c.gridwidth = 2;
+        c.gridheight = 3;
+        c.gridx = 0;
+        c.gridy = 0;
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add margin
         JScrollPane scrollPane = new JScrollPane(table);
-        centerPanel.add(scrollPane);
+        panel.add(scrollPane, c);
 
-        add(centerPanel, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
 
-        setVisible(true);
     }
 }

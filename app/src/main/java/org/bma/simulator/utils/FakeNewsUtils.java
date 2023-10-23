@@ -6,11 +6,11 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FakeNewsUtils {
+    private static final String UI_CLASS = "ui.class";
+    private static final String INFECTED = "infected";
 
 
     private FakeNewsUtils() {
@@ -27,22 +27,20 @@ public class FakeNewsUtils {
             for (Node node : nodes) {
                 for (Edge edge : node.leavingEdges().toList()) {
                     Node returnNode = edge.getTargetNode();
-                    if (returnNode.getAttribute("ui.class") == null || !returnNode.getAttribute("ui.class").equals("infected")) {
+                    if (returnNode.getAttribute(UI_CLASS) == null || !returnNode.getAttribute(UI_CLASS).equals(INFECTED)) {
                         updateInfectionStatus(returnNode, edge.getSourceNode(), wave);
-                        edge.setAttribute("ui.class", "infected");
+                        edge.setAttribute(UI_CLASS, INFECTED);
                         newNodes.add(returnNode);
                     }
                 }
             }
             nodes = newNodes;
             sleep(millis);
-
         }
-        System.out.println("DONE");
     }
 
     private static void updateInfectionStatus(Node infectedNode, Node culpritNode, int wave) {
-        infectedNode.setAttribute("ui.class", "infected");
+        infectedNode.setAttribute(UI_CLASS, INFECTED);
         UserNode data = infectedNode.getAttribute("data", UserNode.class);
         data.setInfected(true);
         data.setCulpritId(culpritNode.getId());
@@ -52,8 +50,7 @@ public class FakeNewsUtils {
     private static void sleep(long millis) {
         try {
             Thread.sleep(millis);
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
     }
 
 

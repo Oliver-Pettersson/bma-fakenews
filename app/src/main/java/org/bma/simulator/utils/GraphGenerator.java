@@ -5,7 +5,6 @@ import org.bma.simulator.visuals.VisualisationGraph;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.MultiGraph;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +13,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GraphGenerator {
+    private static int minFollowerAmount;
+    private static int maxFollowerAmount;
 
 
     private static List<String> nodeIds;
@@ -40,7 +41,7 @@ public class GraphGenerator {
 
     private static void createEdges(Graph graph, int amountOfNodes) {
         for (int sourceNode = 0; sourceNode < amountOfNodes; sourceNode++) {
-            int amountOfFollowers = ThreadLocalRandom.current().nextInt(1, 4);
+            int amountOfFollowers = ThreadLocalRandom.current().nextInt(minFollowerAmount, maxFollowerAmount + 1);
 
             String sourceNodeId = Integer.toString(sourceNode);
             List<String> randomFollowers = getRandomDifferentNodes(amountOfFollowers, nodeIds, sourceNodeId);
@@ -103,4 +104,11 @@ public class GraphGenerator {
         }
     }
 
+    public static void setMinFollowerAmount(int minFollowerAmount) {
+        GraphGenerator.minFollowerAmount = minFollowerAmount;
+    }
+
+    public static void setMaxFollowerAmount(int maxFollowerAmount) {
+        GraphGenerator.maxFollowerAmount = maxFollowerAmount;
+    }
 }
