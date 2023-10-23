@@ -1,5 +1,7 @@
 package org.bma.simulator.datamodel;
 
+import org.bma.simulator.datamodel.userprofile.UserProfile;
+
 public class UserNode {
   private final String id;
   private boolean isInfected;
@@ -7,8 +9,7 @@ public class UserNode {
   private String infectionWave;
   private int amountOfFollowers;
   private int amountOfFollows;
-  private double credibility;
-  private double scepticism;
+  private UserProfile profile;
 
   public UserNode(String id) {
     this.id = id;
@@ -22,8 +23,7 @@ public class UserNode {
         {"wave", this.infectionWave},
         {"follower_count", this.amountOfFollowers},
         {"follow_count", this.amountOfFollows},
-        {"credibility", this.credibility},
-        {"scepticism", this.scepticism}
+        {"user_type", this.profile.getType()}
     };
   }
 
@@ -47,11 +47,7 @@ public class UserNode {
     this.amountOfFollows = amountOfFollows;
   }
 
-  public void setCredibility(double credibility) {
-    this.credibility = credibility;
-  }
-
-  public void setScepticism(double scepticism) {
-    this.scepticism = scepticism;
+  public void setProfile(UserProfile profile) {
+    this.profile = profile;
   }
 }

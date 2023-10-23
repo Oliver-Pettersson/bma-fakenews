@@ -1,16 +1,10 @@
 package org.bma.simulator.visuals;
 
 import org.bma.simulator.datamodel.UserNode;
-import org.graphstream.ui.graphicGraph.GraphicGraph;
-import org.graphstream.ui.swing_viewer.util.MouseOverMouseManager;
-import org.graphstream.ui.view.View;
+import org.bma.simulator.visuals.data.NodeDataVisualisationPanel;
 import org.graphstream.ui.view.Viewer;
 import org.graphstream.ui.view.ViewerListener;
 import org.graphstream.ui.view.ViewerPipe;
-import org.graphstream.ui.view.util.InteractiveElement;
-import org.graphstream.ui.view.util.MouseManager;
-
-import java.util.EnumSet;
 
 public class VisualisationMouseManager implements ViewerListener {
 

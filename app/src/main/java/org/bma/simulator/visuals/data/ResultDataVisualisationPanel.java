@@ -1,4 +1,4 @@
-package org.bma.simulator.visuals;
+package org.bma.simulator.visuals.data;
 
 public class ResultDataVisualisationPanel extends DataVisualisationPanel {
 

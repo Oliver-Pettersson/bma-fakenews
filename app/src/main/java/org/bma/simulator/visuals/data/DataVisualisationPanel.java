@@ -1,4 +1,4 @@
-package org.bma.simulator.visuals;
+package org.bma.simulator.visuals.data;
 
 import javax.swing.*;
 import java.awt.*;

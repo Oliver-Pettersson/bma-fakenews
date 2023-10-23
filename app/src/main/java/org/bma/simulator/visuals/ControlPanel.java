@@ -6,6 +6,7 @@ import org.bma.simulator.utils.FakeNewsUtils;
 import javax.swing.*;
 import java.awt.*;
 import org.bma.simulator.utils.GraphGenerator;
+import org.bma.simulator.visuals.data.ResultDataVisualisationPanel;
 
 public class ControlPanel extends JFrame{
     private final JTextField nodesTextField, celebritiesTextField, refreshRateTextField, injectionSourceTextField, minFollowsTextField, maxFollowsTextField;
@@ -87,13 +88,15 @@ public class ControlPanel extends JFrame{
         gbc.gridy = 4;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        JButton generateButton = getGenerateButton();
-        panel.add(generateButton, gbc);
+        panel.add(getGenerateButton(), gbc);
 
         gbc.gridx = 2;
         gbc.gridy = 4;
-        JButton injectButton = getInjectionButton();
-        panel.add(injectButton, gbc);
+        panel.add(getInjectionButton(), gbc);
+
+        gbc.gridx = 4;
+        gbc.gridy = 4;
+        panel.add(getEditProfileButton(), gbc);
 
         // default Values
         nodesTextField.setText("100");
@@ -124,6 +127,12 @@ public class ControlPanel extends JFrame{
             VisualisationGraph.generateNewGraph(Integer.parseInt(nodesTextField.getText()), Integer.parseInt(celebritiesTextField.getText()));
         });
         return generateButton;
+    }
+
+    private JButton getEditProfileButton() {
+        JButton editProfileButton = new JButton("Edit Profile");
+        editProfileButton.addActionListener(e -> new UserProfileControlPanel());
+        return editProfileButton;
     }
 
 
