@@ -6,10 +6,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
@@ -55,14 +57,14 @@ public class UserProfileControlPanel extends JFrame {
     panel.add(selectedLabel);
 
     // Create a JComboBox (dropdown)
-    String[] options = {"Select an option", UserProfileConstants.AVERAGE, "Option 2", "Option 3"};
+    String[] options = {"", UserProfileConstants.AVERAGE, "Option 2", "Option 3"};
     dropdown = new JComboBox<>(options);
     panel.add(dropdown);
 
     // Add an ActionListener to the dropdown
     dropdown.addActionListener(e -> {
       // Get the selected option and perform your action here
-      dropdown.removeItem("Select an option");
+      dropdown.removeItem("");
       String selectedOption = (String) dropdown.getSelectedItem();
       selectedProfile = UserProfileConstants.getProfileFromString(selectedOption);
       if (selectedProfile != null) {
@@ -94,6 +96,7 @@ public class UserProfileControlPanel extends JFrame {
         AverageUserProfile.setAverageUserScepticism(Double.parseDouble(scepticism));
         AverageUserProfile.setAverageUserCredibility(Double.parseDouble(credibility));
       }
+      JOptionPane.showMessageDialog(this, "Save was successful", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
     });
     panel.add(saveButton, c);
 
