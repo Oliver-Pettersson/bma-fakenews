@@ -15,6 +15,14 @@ public abstract class UserProfile {
     return type;
   }
 
+  public Object[][] getData() {
+    return new Object[][]{
+        {"type", this.type},
+        {"credibility", this.credibility},
+        {"scepticism", this.scepticism}
+    };
+  }
+
   public double getCredibility() {
     return credibility;
   }

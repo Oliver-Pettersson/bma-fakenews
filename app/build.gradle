@@ -17,6 +17,24 @@ dependencies {
     implementation 'org.graphstream:gs-algo:2.0'
 }
 
+configurations {
+    all*.exclude group: 'org.bouncycastle'
+}
+
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes "Main-Class": "org.bma.simulator.Main"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+}
+
 test {
     useJUnitPlatform()
 }

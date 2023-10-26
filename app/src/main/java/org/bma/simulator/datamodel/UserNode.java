@@ -1,6 +1,10 @@
 package org.bma.simulator.datamodel;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+import org.bma.simulator.datamodel.userprofile.AverageUserProfile;
 import org.bma.simulator.datamodel.userprofile.UserProfile;
+import org.jfree.util.ArrayUtilities;
 
 public class UserNode {
   private final String id;
@@ -13,18 +17,18 @@ public class UserNode {
 
   public UserNode(String id) {
     this.id = id;
+    this.profile = new AverageUserProfile();
   }
 
   public Object[][] getData() {
-    return new Object[][] {
+    return Stream.concat(Arrays.stream(new Object[][] {
         {"id", this.id},
         {"infected", this.isInfected},
         {"culprit_id", this.culpritId},
         {"wave", this.infectionWave},
         {"follower_count", this.amountOfFollowers},
-        {"follow_count", this.amountOfFollows},
-        {"user_type", this.profile.getType()}
-    };
+        {"follow_count", this.amountOfFollows}
+    }), Arrays.stream(profile.getData())).toArray(Object[][]::new);
   }
 
   public void setInfected(boolean infected) {
@@ -45,9 +49,5 @@ public class UserNode {
 
   public void setAmountOfFollows(int amountOfFollows) {
     this.amountOfFollows = amountOfFollows;
-  }
-
-  public void setProfile(UserProfile profile) {
-    this.profile = profile;
   }
 }
