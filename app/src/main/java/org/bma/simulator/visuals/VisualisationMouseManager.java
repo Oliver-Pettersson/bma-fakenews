@@ -14,8 +14,7 @@ public class VisualisationMouseManager implements ViewerListener {
 
         // The default action when closing the view is to quit
         // the program.
-        VisualisationGraph.getGraphViewer().setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY);
-
+        VisualisationGraph.getGraphViewer().setCloseFramePolicy(Viewer.CloseFramePolicy.EXIT);
         // We connect back the viewer to the graph,
         // the graph becomes a sink for the viewer.
         // We also install us as a viewer listener to

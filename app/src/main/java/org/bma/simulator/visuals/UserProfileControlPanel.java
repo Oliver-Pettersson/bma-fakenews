@@ -4,9 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,29 +12,22 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
-import org.bma.simulator.datamodel.userprofile.AverageUserProfile;
 import org.bma.simulator.datamodel.userprofile.UserProfile;
 import org.bma.simulator.datamodel.userprofile.UserProfileConstants;
 
 public class UserProfileControlPanel extends JFrame {
-  private final JComboBox<String> dropdown;
-  private final JLabel selectedLabel;
-  private final JTextField scepticismTextField;
-  private final JTextField credibilityTextField;
+  private JComboBox<String> profileDropdown;
+  private JLabel selectedLabel;
+  private JTextField botCredibilityTextField;
+  private JLabel botCredibilityLabel;
   private UserProfile selectedProfile;
+  private JPanel panel;
+  private JButton createButton;
+  private JButton saveButton;
 
   public UserProfileControlPanel() {
     // Set the title for the frame
     super("User Profile Control Panel");
-
-    JLabel scepticismLabel = new JLabel("Scepticism:");
-    JLabel credibilityLabel = new JLabel("Credibility:");
-    scepticismTextField = new JTextField(20);
-    credibilityTextField = new JTextField(20);
-
-    scepticismTextField.setText("0.0");
-    credibilityTextField.setText("0.0");
-
     GridBagConstraints c = new GridBagConstraints();
     c.insets = new Insets(10, 0, 0, 0);
     c.fill = GridBagConstraints.HORIZONTAL;
@@ -49,57 +39,104 @@ public class UserProfileControlPanel extends JFrame {
     setSize(400, 300);
 
     // Create a panel for components
-    JPanel panel = new JPanel(new GridBagLayout());
+    panel = new JPanel(new GridBagLayout());
     add(panel, BorderLayout.CENTER);
+    loadCreateButton(c);
+    loadProfileDropdown(c);
 
-    // Create a label to display the selected option
-    selectedLabel = new JLabel("Selected Profile: ");
-    panel.add(selectedLabel);
+    loadBotComponents(c);
 
-    // Create a JComboBox (dropdown)
-    String[] options = {"", UserProfileConstants.AVERAGE, "Option 2", "Option 3"};
-    dropdown = new JComboBox<>(options);
-    panel.add(dropdown);
-
-    // Add an ActionListener to the dropdown
-    dropdown.addActionListener(e -> {
-      // Get the selected option and perform your action here
-      dropdown.removeItem("");
-      String selectedOption = (String) dropdown.getSelectedItem();
-      selectedProfile = UserProfileConstants.getProfileFromString(selectedOption);
-      if (selectedProfile != null) {
-        credibilityTextField.setText(Double.toString(selectedProfile.getCredibility()));
-        scepticismTextField.setText(Double.toString(selectedProfile.getScepticism()));
-      }
-    });
 
     c.gridx = 0;
     c.gridy = 3;
-    panel.add(scepticismLabel, c);
+    // enter here
     c.gridx = 1;
-    panel.add(scepticismTextField, c);
-    c.gridx = 0;
-    c.gridy = 4;
-    panel.add(credibilityLabel, c);
-    c.gridx = 1;
-    panel.add(credibilityTextField, c);
-
-    c.gridwidth = 2;
-    c.gridx = 0;
-    c.gridy = 5;
+    // enter here
 
     JButton saveButton = new JButton("Save");
     saveButton.addActionListener(e -> {
-      String scepticism = scepticismTextField.getText();
-      String credibility = credibilityTextField.getText();
-      if (selectedProfile instanceof AverageUserProfile) {
-        AverageUserProfile.setAverageUserScepticism(Double.parseDouble(scepticism));
-        AverageUserProfile.setAverageUserCredibility(Double.parseDouble(credibility));
-      }
+      String credibility = botCredibilityTextField.getText();
+
       JOptionPane.showMessageDialog(this, "Save was successful", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
     });
     panel.add(saveButton, c);
 
     setVisible(true);
+  }
+
+  private void loadProfileDropdown(GridBagConstraints c) {
+    c.gridx = 0;
+    c.gridy = 1;
+    // Create a label to display the selected option
+    selectedLabel = new JLabel("Selected Profile: ");
+    panel.add(selectedLabel, c);
+
+    // Create a JComboBox (dropdown)
+    c.gridx = 1;
+    String[] options = {"", UserProfileConstants.AVERAGE, "Option 2", "Option 3"};
+    profileDropdown = new JComboBox<>(options);
+    panel.add(profileDropdown, c);
+
+    // Add an ActionListener to the dropdown
+    profileDropdown.addActionListener(e -> {
+      // Get the selected option and perform your action here
+      profileDropdown.removeItem("");
+      String selectedOption = (String) profileDropdown.getSelectedItem();
+      selectedProfile = UserProfileConstants.getProfileFromString(selectedOption);
+      if (selectedProfile != null) {
+        botCredibilityTextField.setText(Double.toString(selectedProfile.getCredibility()));
+      }
+    });
+  }
+
+  private void loadBotComponents(GridBagConstraints c) {
+    botCredibilityLabel = new JLabel("Credibility:");
+    botCredibilityTextField = new JTextField(20);
+
+    botCredibilityTextField.setText("0.0");
+
+    c.gridx = 0;
+    c.gridy = 4;
+    panel.add(botCredibilityLabel, c);
+    c.gridx = 1;
+    panel.add(botCredibilityTextField, c);
+  }
+
+  private void loadSaveButton(GridBagConstraints c) {
+    c.gridwidth = 2;
+    c.gridx = 0;
+    c.gridy = 5;
+    saveButton = new JButton("Save");
+    saveButton.addActionListener(e -> {
+      String credibility = botCredibilityTextField.getText();
+
+      JOptionPane.showMessageDialog(this, "Save was successful", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+    });
+    panel.add(saveButton, c);
+    c.gridwidth = 1;
+  }
+
+  private void loadCreateButton(GridBagConstraints c) {
+    c.gridwidth = 2;
+    c.gridx = 0;
+    c.gridy = 0;
+    createButton = new JButton("Create New Profile");
+    createButton.addActionListener(e -> {
+      String credibility = botCredibilityTextField.getText();
+
+      JOptionPane.showMessageDialog(this, "Save was successful", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+    });
+    panel.add(createButton, c);
+    c.gridwidth = 1;
+  }
+
+  private void showBotComponents(boolean show) {
+    botCredibilityLabel.setVisible(show);
+    botCredibilityTextField.setVisible(show);
+  }
+
+  private void updateGUI() {
+    revalidate();
+    repaint();
   }
 }

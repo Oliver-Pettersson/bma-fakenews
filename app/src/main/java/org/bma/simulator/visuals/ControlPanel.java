@@ -105,6 +105,7 @@ public class ControlPanel extends JFrame{
         injectionSourceTextField.setText("0");
 
         add(panel);
+        generateGraph();
         setVisible(true);
     }
 
@@ -122,9 +123,7 @@ public class ControlPanel extends JFrame{
     private JButton getGenerateButton() {
         JButton generateButton = new JButton("Generate");
         generateButton.addActionListener(e -> {
-            GraphGenerator.setMinFollowerAmount(Integer.parseInt(minFollowsTextField.getText()));
-            GraphGenerator.setMaxFollowerAmount(Integer.parseInt(maxFollowsTextField.getText()));
-            VisualisationGraph.generateNewGraph(Integer.parseInt(nodesTextField.getText()), Integer.parseInt(celebritiesTextField.getText()));
+            generateGraph();
         });
         return generateButton;
     }
@@ -135,5 +134,10 @@ public class ControlPanel extends JFrame{
         return editProfileButton;
     }
 
+    private void generateGraph() {
+        GraphGenerator.setMinFollowerAmount(Integer.parseInt(minFollowsTextField.getText()));
+        GraphGenerator.setMaxFollowerAmount(Integer.parseInt(maxFollowsTextField.getText()));
+        VisualisationGraph.generateNewGraph(Integer.parseInt(nodesTextField.getText()), Integer.parseInt(celebritiesTextField.getText()));
+    }
 
 }

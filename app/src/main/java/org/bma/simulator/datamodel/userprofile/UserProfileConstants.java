@@ -5,7 +5,7 @@ public class UserProfileConstants {
 
   public static UserProfile getProfileFromString(String s) {
     if (AVERAGE.equals(s)) {
-      return new AverageUserProfile();
+      return new HumanUserProfile();
     }
     return null;
   }

@@ -30,4 +30,13 @@ public abstract class UserProfile {
   public double getScepticism() {
     return scepticism;
   }
+
+  public void setCredibility(Double credibility) {
+    this.credibility = credibility;
+  }
+
+  public void setScepticism(Double scepticism) {
+    this.scepticism = scepticism;
+  }
 }
+

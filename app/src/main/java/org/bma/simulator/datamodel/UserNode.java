@@ -2,9 +2,8 @@ package org.bma.simulator.datamodel;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
-import org.bma.simulator.datamodel.userprofile.AverageUserProfile;
+import org.bma.simulator.datamodel.userprofile.HumanUserProfile;
 import org.bma.simulator.datamodel.userprofile.UserProfile;
-import org.jfree.util.ArrayUtilities;
 
 public class UserNode {
   private final String id;
@@ -17,7 +16,7 @@ public class UserNode {
 
   public UserNode(String id) {
     this.id = id;
-    this.profile = new AverageUserProfile();
+    this.profile = new HumanUserProfile();
   }
 
   public Object[][] getData() {
@@ -45,6 +44,10 @@ public class UserNode {
 
   public void setAmountOfFollowers(int amountOfFollowers) {
     this.amountOfFollowers = amountOfFollowers;
+  }
+
+  public void setProfile(UserProfile profile) {
+    this.profile = profile;
   }
 
   public void setAmountOfFollows(int amountOfFollows) {
