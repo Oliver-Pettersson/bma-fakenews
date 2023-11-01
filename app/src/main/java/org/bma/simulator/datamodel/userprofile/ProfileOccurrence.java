@@ -13,6 +13,10 @@ public class ProfileOccurrence {
     return profile;
   }
 
+  public void setOccurrence(int occurrence) {
+    this.occurrence = occurrence;
+  }
+
   public int getOccurrence() {
     return occurrence;
   }
