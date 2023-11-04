@@ -22,6 +22,12 @@ public class HumanUserProfile extends UserProfile {
     this.ageGroup = ageGroup;
   }
 
+  public HumanUserProfile(String type, PoliticalType politicalType, AgeGroup ageGroup) {
+    super(type, 1.0, 1.0);
+    this.politicalType = politicalType;
+    this.ageGroup = ageGroup;
+  }
+
   @Override
   public Object[][] getData() {
     return Stream.concat(Arrays.stream(super.getData()), Arrays.stream(new Object[][] {

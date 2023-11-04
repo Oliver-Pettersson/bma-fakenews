@@ -1,4 +1,4 @@
-package org.bma.simulator.visuals;
+package org.bma.simulator.visuals.profile;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -215,16 +215,18 @@ public class UserProfileControlPanel extends JFrame {
         c.gridy = 0;
         createButton = new JButton("Create New Profile");
         createButton.addActionListener(e -> {
-            String credibility = botCredibilityTextField.getText();
-
-            JOptionPane.showMessageDialog(this, "Save was successful", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+            new CreateUserProfilePanel(this);
         });
         panel.add(createButton, c);
         c.gridwidth = 1;
     }
 
-    private void updateGUI() {
+    public void updateGUI() {
         revalidate();
         repaint();
+    }
+
+    public JComboBox<String> getProfileDropdown() {
+        return profileDropdown;
     }
 }

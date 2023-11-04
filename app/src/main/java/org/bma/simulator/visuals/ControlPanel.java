@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import org.bma.simulator.utils.GraphGenerator;
 import org.bma.simulator.visuals.data.ResultDataVisualisationPanel;
+import org.bma.simulator.visuals.profile.UserProfileControlPanel;
 
 public class ControlPanel extends JFrame{
     private final JTextField nodesTextField, celebritiesTextField, refreshRateTextField, injectionSourceTextField, minFollowsTextField, maxFollowsTextField;
