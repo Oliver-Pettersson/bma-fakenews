@@ -1,6 +1,7 @@
 package org.bma.simulator.visuals;
 
 import org.bma.simulator.datamodel.UserNode;
+import org.bma.simulator.datamodel.userprofile.utils.UserProfileUtils;
 import org.bma.simulator.utils.GraphGenerator;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -53,6 +54,7 @@ public class VisualisationGraph {
             data.setAmountOfFollowers(node.leavingEdges().toList().size());
             data.setAmountOfFollows(node.enteringEdges().toList().size());
         });
+        UserProfileUtils.spreadUserProfiles(GRAPH.nodes().toList());
     }
 
     public static Graph getGraph() {

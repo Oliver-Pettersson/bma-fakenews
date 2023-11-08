@@ -85,6 +85,7 @@ public class GraphGenerator {
             while (celebrityRegister.get(celebrityId) != null) {
                 celebrityId = VisualisationGraph.getGraph().getNode(ThreadLocalRandom.current().nextInt(0, nodeCount)).getId();
             }
+            ((UserNode) VisualisationGraph.getGraph().getNode(celebrityId).getAttribute("data")).setCelebrity(true);
             attachFollowersToCelebrity(celebrityId);
             celebrityRegister.put(celebrityId, true);
         }

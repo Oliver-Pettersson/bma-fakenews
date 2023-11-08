@@ -12,6 +12,7 @@ public class UserNode {
   private String infectionWave;
   private int amountOfFollowers;
   private int amountOfFollows;
+  private boolean isCelebrity;
   private UserProfile profile;
 
   public UserNode(String id) {
@@ -26,7 +27,8 @@ public class UserNode {
         {"culprit_id", this.culpritId},
         {"wave", this.infectionWave},
         {"follower_count", this.amountOfFollowers},
-        {"follow_count", this.amountOfFollows}
+        {"follow_count", this.amountOfFollows},
+        {"is_celebrity", this.isCelebrity}
     }), Arrays.stream(profile.getData())).toArray(Object[][]::new);
   }
 
@@ -52,5 +54,13 @@ public class UserNode {
 
   public void setAmountOfFollows(int amountOfFollows) {
     this.amountOfFollows = amountOfFollows;
+  }
+
+  public boolean isCelebrity() {
+    return isCelebrity;
+  }
+
+  public void setCelebrity(boolean celebrity) {
+    isCelebrity = celebrity;
   }
 }

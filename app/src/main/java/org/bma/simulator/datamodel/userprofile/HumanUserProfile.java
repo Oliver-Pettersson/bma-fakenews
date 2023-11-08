@@ -11,12 +11,12 @@ public class HumanUserProfile extends UserProfile {
   private AgeGroup ageGroup;
 
   public HumanUserProfile() {
-    super(UserProfileConstants.AVERAGE, 1.0, 0.0); //placeholder for init
+    super(UserProfileConstants.DEFAULT_USER, 1.0, 0.0); //placeholder for init
     this.scepticism = AttributeCalcUtils.calcUserScepticism(this);
   }
 
   public HumanUserProfile(PoliticalType politicalType, AgeGroup ageGroup) {
-    super(UserProfileConstants.AVERAGE, 1.0, 0.0); //placeholder for init
+    super(UserProfileConstants.DEFAULT_USER, 1.0, 0.0); //placeholder for init
     this.scepticism = AttributeCalcUtils.calcUserScepticism(this);
     this.politicalType = politicalType;
     this.ageGroup = ageGroup;
