@@ -1,6 +1,8 @@
 package org.bma.simulator.visuals;
 
+import java.util.Arrays;
 import org.bma.simulator.datamodel.ResultData;
+import org.bma.simulator.datamodel.userprofile.attributetype.PoliticalType;
 import org.bma.simulator.utils.FakeNewsUtils;
 
 import javax.swing.*;
@@ -11,7 +13,7 @@ import org.bma.simulator.visuals.profile.UserProfileControlPanel;
 
 public class ControlPanel extends JFrame{
     private final JTextField nodesTextField, celebritiesTextField, refreshRateTextField, injectionSourceTextField, minFollowsTextField, maxFollowsTextField;
-
+    private final JComboBox<String> politicalTypeDropdown;
     public ControlPanel() {
         setTitle("Control Panel");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -84,6 +86,15 @@ public class ControlPanel extends JFrame{
         gbc.gridy = 1;
         injectionSourceTextField = new JTextField(10);
         panel.add(injectionSourceTextField, gbc);
+
+        JLabel politicalTypeLabel = new JLabel("Political Type: ");
+        politicalTypeDropdown = new JComboBox<>(
+            Arrays.stream(PoliticalType.values()).map(Enum::name).toArray(String[]::new));
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        panel.add(politicalTypeLabel, gbc);
+        gbc.gridx = 3;
+        panel.add(politicalTypeDropdown, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
