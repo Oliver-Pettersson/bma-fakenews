@@ -34,7 +34,8 @@ public class FakeNewsCalcUtils {
         adjustedRecognitionProbability = adjustForFakeNewsProps(adjustedRecognitionProbability, target);
         adjustedRecognitionProbability = adjustForSource(adjustedRecognitionProbability, source, target);
 
-
+        if (source.getProfile() instanceof BotUserProfile)
+            adjustedRecognitionProbability = adjustedRecognitionProbability * BotUserProfile.getBotCredibility();
 
         return ThreadLocalRandom.current().nextDouble() > adjustedRecognitionProbability;
     }

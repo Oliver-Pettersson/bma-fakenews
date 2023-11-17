@@ -7,6 +7,8 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.ui.view.Viewer;
 
+import java.util.stream.Collectors;
+
 public class VisualisationGraph {
     private static final Graph GRAPH = new MultiGraph("0");
     private static final Viewer graphViewer;
@@ -59,7 +61,7 @@ public class VisualisationGraph {
             data.setAmountOfFollowers(node.leavingEdges().toList().size());
             data.setAmountOfFollows(node.enteringEdges().toList().size());
         });
-        UserProfileUtils.spreadUserProfiles(GRAPH.nodes().toList());
+        UserProfileUtils.spreadUserProfiles(GRAPH.nodes().collect(Collectors.toList()));
     }
 
     public static Graph getGraph() {

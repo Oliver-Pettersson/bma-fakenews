@@ -1,9 +1,6 @@
 package org.bma.simulator.datamodel.userprofile.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.bma.simulator.datamodel.UserNode;
 import org.bma.simulator.datamodel.userprofile.*;
@@ -29,6 +26,7 @@ public class UserProfileUtils {
 
     public static void spreadUserProfiles(List<Node> nodes) {
         List<ProfileOccurrence> profileOccurrences = profiles.values().stream().toList();
+        Collections.shuffle(nodes);
         assignCelebrityProfiles(nodes, profileOccurrences.stream().filter(
                 profileOccurrence -> profileOccurrence.getProfile() instanceof CelebrityUserProfile).toList());
         profileOccurrences = profileOccurrences.stream().filter(
