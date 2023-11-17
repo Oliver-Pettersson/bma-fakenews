@@ -6,15 +6,19 @@ import org.bma.simulator.datamodel.userprofile.attributetype.AgeGroup;
 import org.bma.simulator.datamodel.userprofile.attributetype.PoliticalType;
 
 public class HumanUserProfile extends UserProfile {
+  private final static PoliticalType DEFAULT_POLITICAL_TYPE = PoliticalType.NONE;
+  private final static AgeGroup DEFAULT_AGE_GROUP = AgeGroup.ADULT;
   private PoliticalType politicalType;
   private AgeGroup ageGroup;
 
   public HumanUserProfile() {
-    super(UserProfileConstants.DEFAULT_USER); //placeholder for init
+    super(UserProfileConstants.DEFAULT_USER);
+    this.politicalType = DEFAULT_POLITICAL_TYPE;
+    this.ageGroup = DEFAULT_AGE_GROUP;
   }
 
   public HumanUserProfile(PoliticalType politicalType, AgeGroup ageGroup) {
-    super(UserProfileConstants.DEFAULT_USER); //placeholder for init
+    super(UserProfileConstants.DEFAULT_USER);
     this.politicalType = politicalType;
     this.ageGroup = ageGroup;
   }
