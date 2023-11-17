@@ -4,26 +4,23 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 import org.bma.simulator.datamodel.userprofile.attributetype.AgeGroup;
 import org.bma.simulator.datamodel.userprofile.attributetype.PoliticalType;
-import org.bma.simulator.datamodel.userprofile.utils.AttributeCalcUtils;
 
 public class HumanUserProfile extends UserProfile {
   private PoliticalType politicalType;
   private AgeGroup ageGroup;
 
   public HumanUserProfile() {
-    super(UserProfileConstants.DEFAULT_USER, 1.0, 0.0); //placeholder for init
-    this.scepticism = AttributeCalcUtils.calcUserScepticism(this);
+    super(UserProfileConstants.DEFAULT_USER); //placeholder for init
   }
 
   public HumanUserProfile(PoliticalType politicalType, AgeGroup ageGroup) {
-    super(UserProfileConstants.DEFAULT_USER, 1.0, 0.0); //placeholder for init
-    this.scepticism = AttributeCalcUtils.calcUserScepticism(this);
+    super(UserProfileConstants.DEFAULT_USER); //placeholder for init
     this.politicalType = politicalType;
     this.ageGroup = ageGroup;
   }
 
   public HumanUserProfile(String type, PoliticalType politicalType, AgeGroup ageGroup) {
-    super(type, 1.0, 1.0);
+    super(type);
     this.politicalType = politicalType;
     this.ageGroup = ageGroup;
   }

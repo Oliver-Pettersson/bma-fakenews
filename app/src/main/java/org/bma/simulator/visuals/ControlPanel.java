@@ -1,19 +1,23 @@
 package org.bma.simulator.visuals;
 
 import java.util.Arrays;
+
 import org.bma.simulator.datamodel.ResultData;
 import org.bma.simulator.datamodel.userprofile.attributetype.PoliticalType;
+import org.bma.simulator.utils.FakeNewsCalcUtils;
 import org.bma.simulator.utils.FakeNewsUtils;
 
 import javax.swing.*;
 import java.awt.*;
+
 import org.bma.simulator.utils.GraphGenerator;
 import org.bma.simulator.visuals.data.ResultDataVisualisationPanel;
 import org.bma.simulator.visuals.profile.UserProfileControlPanel;
 
-public class ControlPanel extends JFrame{
-    private final JTextField nodesTextField, celebritiesTextField, refreshRateTextField, injectionSourceTextField, minFollowsTextField, maxFollowsTextField;
+public class ControlPanel extends JFrame {
+    private final JTextField nodesTextField, celebritiesTextField, believabilityTextField, injectionSourceTextField, minFollowsTextField, maxFollowsTextField;
     private final JComboBox<String> politicalTypeDropdown;
+
     public ControlPanel() {
         setTitle("Control Panel");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -71,12 +75,12 @@ public class ControlPanel extends JFrame{
 
         gbc.gridx = 2;
         gbc.gridy = 0;
-        panel.add(new JLabel("Refresh Rate (ms):"), gbc);
+        panel.add(new JLabel("Believability (0 - 1):"), gbc);
 
         gbc.gridx = 3;
         gbc.gridy = 0;
-        refreshRateTextField = new JTextField(10);
-        panel.add(refreshRateTextField, gbc);
+        believabilityTextField = new JTextField(10);
+        panel.add(believabilityTextField, gbc);
 
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -87,9 +91,9 @@ public class ControlPanel extends JFrame{
         injectionSourceTextField = new JTextField(10);
         panel.add(injectionSourceTextField, gbc);
 
-        JLabel politicalTypeLabel = new JLabel("Political Type: ");
+        JLabel politicalTypeLabel = new JLabel("Offended Political Party: ");
         politicalTypeDropdown = new JComboBox<>(
-            Arrays.stream(PoliticalType.values()).map(Enum::name).toArray(String[]::new));
+                Arrays.stream(PoliticalType.values()).map(Enum::name).toArray(String[]::new));
         gbc.gridx = 2;
         gbc.gridy = 2;
         panel.add(politicalTypeLabel, gbc);
@@ -113,7 +117,7 @@ public class ControlPanel extends JFrame{
         // default Values
         nodesTextField.setText("100");
         celebritiesTextField.setText("1");
-        refreshRateTextField.setText("1000");
+        believabilityTextField.setText("0.5");
         injectionSourceTextField.setText("0");
 
         add(panel);
@@ -124,9 +128,9 @@ public class ControlPanel extends JFrame{
     private JButton getInjectionButton() {
         JButton injectButton = new JButton("Inject Fake News");
         injectButton.addActionListener(e -> new Thread(() -> {
-            FakeNewsUtils.injectFakeNews(
-                    VisualisationGraph.getGraph().getNode(injectionSourceTextField.getText()),
-                    Long.parseLong(refreshRateTextField.getText()));
+            FakeNewsCalcUtils.setOffendedPoliticalType(PoliticalType.valueOf((String) politicalTypeDropdown.getSelectedItem()));
+            FakeNewsCalcUtils.setBelievability(Double.parseDouble(believabilityTextField.getText()));
+            FakeNewsUtils.injectFakeNews(VisualisationGraph.getGraph().getNode(injectionSourceTextField.getText()));
             new ResultDataVisualisationPanel(new ResultData().getData(), "Result Panel");
         }).start());
         return injectButton;

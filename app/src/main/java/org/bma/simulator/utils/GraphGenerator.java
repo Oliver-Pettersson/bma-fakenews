@@ -1,6 +1,5 @@
 package org.bma.simulator.utils;
 
-import org.bma.simulator.datamodel.UserConnectionEdge;
 import org.bma.simulator.datamodel.UserNode;
 import org.bma.simulator.visuals.VisualisationGraph;
 import org.graphstream.graph.Edge;
@@ -48,8 +47,7 @@ public class GraphGenerator {
             List<String> randomFollowers = getRandomDifferentNodes(amountOfFollowers, nodeIds, sourceNodeId);
             for (String followerId :
                     randomFollowers) {
-                Edge e = graph.addEdge(sourceNodeId + "->" + followerId, sourceNodeId, followerId, true);
-                e.setAttribute("data", new UserConnectionEdge());
+                graph.addEdge(sourceNodeId + "->" + followerId, sourceNodeId, followerId, true);
             }
         }
     }

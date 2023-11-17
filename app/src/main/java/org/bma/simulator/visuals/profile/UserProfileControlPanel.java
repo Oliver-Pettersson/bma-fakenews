@@ -128,7 +128,7 @@ public class UserProfileControlPanel extends JFrame {
             wipeInputFields();
             occurrenceTextField.setText(Integer.toString(selectedProfile.getOccurrence()));
             if (selectedProfile.getProfile() instanceof BotUserProfile) {
-                botCredibilityTextField.setText(Double.toString(selectedProfile.getProfile().getCredibility()));
+                botCredibilityTextField.setText(Double.toString(BotUserProfile.getBotCredibility()));
                 showBotComponents();
             }
             if (selectedProfile.getProfile() instanceof HumanUserProfile) {
@@ -201,7 +201,7 @@ public class UserProfileControlPanel extends JFrame {
                 ((HumanUserProfile) selectedProfile.getProfile()).setAgeGroup(selectedAgeGroup);
             }
             if (selectedProfile.getProfile() instanceof BotUserProfile) {
-                selectedProfile.getProfile().setCredibility(Double.parseDouble(botCredibilityTextField.getText()));
+                BotUserProfile.setBotCredibility(Double.parseDouble(botCredibilityTextField.getText()));
             }
             JOptionPane.showMessageDialog(this, "Save was successful", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
         });

@@ -17,7 +17,6 @@ public class VisualisationGraph {
             	text-mode: hidden;
             	z-index: 0;
             }
-                        
             edge {
             	shape: line;
             	fill-color: #222;
@@ -28,6 +27,12 @@ public class VisualisationGraph {
             }
             edge.infected {
                 fill-color: red;
+            }
+            node.immune {
+                fill-color: blue;
+            }
+            edge.immune {
+                fill-color: blue;
             }
             """;
 

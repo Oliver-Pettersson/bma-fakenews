@@ -8,6 +8,7 @@ import org.bma.simulator.datamodel.userprofile.UserProfile;
 public class UserNode {
   private final String id;
   private boolean isInfected;
+  private boolean isImmune;
   private String culpritId;
   private String infectionWave;
   private int amountOfFollowers;
@@ -24,6 +25,7 @@ public class UserNode {
     return Stream.concat(Arrays.stream(new Object[][] {
         {"id", this.id},
         {"infected", this.isInfected},
+        {"immune", this.isImmune},
         {"culprit_id", this.culpritId},
         {"wave", this.infectionWave},
         {"follower_count", this.amountOfFollowers},
@@ -62,5 +64,13 @@ public class UserNode {
 
   public void setCelebrity(boolean celebrity) {
     isCelebrity = celebrity;
+  }
+
+  public UserProfile getProfile() {
+    return profile;
+  }
+
+  public void setImmune(boolean immune) {
+    isImmune = immune;
   }
 }
