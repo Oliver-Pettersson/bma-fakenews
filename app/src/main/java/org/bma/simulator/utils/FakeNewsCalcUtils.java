@@ -86,6 +86,18 @@ public class FakeNewsCalcUtils {
             }
             return adjustedProbability;
         }
+        if (targetProfile.getPoliticalType() == PoliticalType.NONE) {
+            if (targetProfile.getAgeGroup() == AgeGroup.YOUNG_ADULT) {
+                adjustedProbability += (YA_POLITICAL_SCEPTICISM - YA_NON_POLITICAL_SCEPTICISM) / 1.1;
+            }
+            if (targetProfile.getAgeGroup() == AgeGroup.ADULT) {
+                adjustedProbability += (ADULT_POLITICAL_SCEPTICISM - ADULT_NON_POLITICAL_SCEPTICISM) / 1.1;
+            }
+            if (targetProfile.getAgeGroup() == AgeGroup.SENIOR) {
+                adjustedProbability += (SENIOR_POLITICAL_SCEPTICISM - SENIOR_NON_POLITICAL_SCEPTICISM) / 1.1;
+            }
+            return adjustedProbability;
+        }
         if (targetProfile.getAgeGroup() == AgeGroup.YOUNG_ADULT) {
             adjustedProbability -= YA_POLITICAL_SCEPTICISM - YA_NON_POLITICAL_SCEPTICISM;
         }
