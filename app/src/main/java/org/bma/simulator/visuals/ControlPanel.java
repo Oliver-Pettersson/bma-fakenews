@@ -36,7 +36,7 @@ public class ControlPanel extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(new JLabel("Amount of Nodes:"), gbc);
+        panel.add(new JLabel("Amount of Users:"), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
