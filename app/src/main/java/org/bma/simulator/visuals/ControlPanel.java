@@ -45,7 +45,7 @@ public class ControlPanel extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        panel.add(new JLabel("Amount of Celebrities:"), gbc);
+        panel.add(new JLabel("Amount of Influencers:"), gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
