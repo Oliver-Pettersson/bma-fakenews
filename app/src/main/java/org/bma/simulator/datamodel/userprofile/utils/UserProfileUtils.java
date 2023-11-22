@@ -14,7 +14,7 @@ public class UserProfileUtils {
     static {
         profiles.put(UserProfileConstants.DEFAULT_CELEBRITY, new ProfileOccurrence(new CelebrityUserProfile(UserProfileConstants.DEFAULT_CELEBRITY, PoliticalType.LEFT, AgeGroup.SENIOR), 10));
         profiles.put(UserProfileConstants.DEFAULT_USER, new ProfileOccurrence(new HumanUserProfile(PoliticalType.NONE, AgeGroup.YOUNG_ADULT), 10));
-        profiles.put(UserProfileConstants.BOT_TYPE, new ProfileOccurrence(new BotUserProfile(), 10));
+        profiles.put(UserProfileConstants.BOT_TYPE, new ProfileOccurrence(new BotUserProfile(), 0));
     }
 
     private UserProfileUtils() {
@@ -40,16 +40,18 @@ public class UserProfileUtils {
         for (Node node :
                 nodes) {
             if (currentIndex == 0) {
-                if (currentProfileIndex == profileOccurrences.size())
+                while (occurrences == 0 && currentProfileIndex < profileOccurrences.size()) {
+                    currentProfile = profileOccurrences.get(currentProfileIndex);
+                    occurrences = currentProfile.getOccurrence();
+                    currentProfileIndex++;
+                }
+                if (currentProfileIndex >= profileOccurrences.size())
                     break;
-                currentProfile = profileOccurrences.get(currentProfileIndex);
-                occurrences = currentProfile.getOccurrence();
-                currentProfileIndex++;
             }
             data = (UserNode) node.getAttribute("data");
             data.setProfile(currentProfile.getProfile());
             currentIndex++;
-            if (currentIndex == occurrences) {
+            if (currentIndex >= occurrences) {
                 currentIndex = 0;
             }
         }
