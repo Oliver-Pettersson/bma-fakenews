@@ -40,12 +40,17 @@ public class UserProfileUtils {
         for (Node node :
                 nodes) {
             if (currentIndex == 0) {
+                if (currentProfileIndex >= profileOccurrences.size())
+                    break;
+                currentProfile = profileOccurrences.get(currentProfileIndex);
+                occurrences = currentProfile.getOccurrence();
+                currentProfileIndex++;
                 while (occurrences == 0 && currentProfileIndex < profileOccurrences.size()) {
                     currentProfile = profileOccurrences.get(currentProfileIndex);
                     occurrences = currentProfile.getOccurrence();
                     currentProfileIndex++;
                 }
-                if (currentProfileIndex >= profileOccurrences.size())
+                if (occurrences == 0)
                     break;
             }
             data = (UserNode) node.getAttribute("data");
