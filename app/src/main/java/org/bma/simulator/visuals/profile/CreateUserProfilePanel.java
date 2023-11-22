@@ -50,6 +50,9 @@ public class CreateUserProfilePanel extends JFrame {
         loadHumanUserComponents(c);
         loadOccurrenceComponents(c);
 
+        selectedAgeGroup = AgeGroup.valueOf((String) ageGroupDropdown.getSelectedItem());
+        selectedPoliticalType = PoliticalType.valueOf((String) politicalTypeDropdown.getSelectedItem());
+
         loadSaveButton(c);
 
         setVisible(true);
